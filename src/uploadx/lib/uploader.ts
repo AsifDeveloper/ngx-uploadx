@@ -170,7 +170,7 @@ export abstract class Uploader implements UploadState {
    * Gets the value from the response
    */
   protected getValueFromResponse(key: string): string | null {
-    return this._xhr.getResponseHeader(key);
+    return this.getResponseHeaders(this._xhr)[key.toLowerCase()];
   }
 
   /**
@@ -263,6 +263,16 @@ export abstract class Uploader implements UploadState {
       } catch {}
     }
     return body;
+  }
+
+  private getResponseHeaders(xhr: XMLHttpRequest): Record<string, string> {
+    const allResponseHeaders = xhr.getAllResponseHeaders();
+    const rows = allResponseHeaders.split('\r\n');
+    return rows.reduce((headers: Record<string, string>, current) => {
+      const [name, value] = current.split(': ');
+      headers[name] = value;
+      return headers;
+    }, {});
   }
 
   protected getChunk() {
