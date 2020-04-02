@@ -26,7 +26,8 @@ export class UploadxService implements OnDestroy {
     'speed',
     'status',
     'uploadId',
-    'url'
+    'url',
+    'uploadType'
   ];
   /** Upload status events */
   get events() {
