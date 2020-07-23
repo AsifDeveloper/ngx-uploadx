@@ -32,7 +32,8 @@ export class UploaderX extends Uploader {
     const { end, body } = this.getChunk();
     const headers = {
       'Content-Type': 'application/octet-stream',
-      'Content-Range': `bytes ${this.offset}-${end - 1}/${this.size}`
+      'Content-Range': `bytes ${this.offset}-${end - 1}/${this.size}`,
+      'ngsw-bypass': 'true'
     };
     await this.request({ method: 'PUT', body, headers });
     return this.getOffsetFromResponse();
